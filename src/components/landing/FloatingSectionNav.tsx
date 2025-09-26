@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils";
 import { Sparkles, LayoutDashboard, DollarSign } from "lucide-react";
 
 export const FloatingSectionNav = () => {
-  const [fixed, setFixed] = useState(false);
+  const [fixed, setFixed] = useState(true);
 
   useEffect(() => {
     const onScroll = () => {
-      const threshold = 240; // after hero
+      const threshold = -1; // always fixed at top
       setFixed(window.scrollY > threshold);
     };
     onScroll();
@@ -22,7 +22,7 @@ export const FloatingSectionNav = () => {
     <div
       className={cn(
         "z-40 flex w-full justify-center",
-        fixed ? "pointer-events-none fixed left-0 right-0 top-4" : "sticky top-2"
+        fixed ? "pointer-events-none fixed left-0 right-0 top-0" : "sticky top-2"
       )}
     >
       <nav
