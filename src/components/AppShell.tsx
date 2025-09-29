@@ -3,6 +3,7 @@ import * as React from "react"
 import { useSession } from "@/lib/auth-client"
 import Sidebar from "@/components/Sidebar"
 import { cn } from "@/lib/utils"
+import { usePathname } from "next/navigation"
 
 interface AppShellProps {
   children: React.ReactNode
@@ -10,7 +11,23 @@ interface AppShellProps {
 
 export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   const { data: session, isPending } = useSession()
-  const showSidebar = isPending || !!session?.user
+  const pathname = usePathname()
+
+  // Public-only routes (no sidebar when logged out)
+  const PUBLIC_ROUTES = new Set([
+    "/",
+    "/sign-in",
+    "/sign-up",
+    "/login",
+    "/register",
+    "/signup",
+  ])
+
+  const isLoggedIn = !!session?.user
+  const isPublicOnly = PUBLIC_ROUTES.has(pathname)
+
+  // Show sidebar only when: logged in OR loading session, AND not a public-only route while logged out
+  const showSidebar = (isLoggedIn || isPending) && !(isPublicOnly && !isLoggedIn)
 
   return (
     // Outer app background matches reference light canvas
