@@ -13,9 +13,20 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   const showSidebar = isPending || !!session?.user
 
   return (
-    <div className={cn(showSidebar && "min-h-screen grid grid-cols-1 md:grid-cols-[256px_1fr]")}> 
-      {showSidebar && <Sidebar />}
-      {children}
+    // Outer app background matches reference light canvas
+    <div className={cn("min-h-screen bg-muted", showSidebar && "p-4 md:p-6")}> 
+      {/* Shell grid with persistent sidebar */}
+      <div className={cn(showSidebar && "grid gap-4 md:grid-cols-[256px_1fr]")}> 
+        {showSidebar && <Sidebar />}
+        {/* Content panel with rounded card look */}
+        <div className={cn(
+          showSidebar &&
+            "rounded-2xl bg-card border shadow-sm min-h-[calc(100dvh-2rem)] md:min-h-[calc(100dvh-3rem)] overflow-hidden"
+        )}
+        >
+          {children}
+        </div>
+      </div>
     </div>
   )
 }
