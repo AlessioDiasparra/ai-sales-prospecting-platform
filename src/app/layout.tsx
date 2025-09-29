@@ -4,6 +4,7 @@ import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
 import { Toaster } from "@/components/ui/sonner";
+import AppShell from "@/components/AppShell";
 
 export const metadata: Metadata = {
   title: "Lovable for Sales",
@@ -30,7 +31,7 @@ export default function RootLayout({
           data-debug="true"
           data-custom-data='{"appName": "YourApp", "version": "1.0.0", "greeting": "hi"}'
         />
-        {children}
+        <AppShell>{children}</AppShell>
         <VisualEditsMessenger />
       </body>
     </html>

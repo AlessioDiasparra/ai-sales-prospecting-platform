@@ -45,8 +45,32 @@ export default function Sidebar() {
     }
   }
 
+  // While session is loading, render a fixed-width skeleton to avoid layout shift
+  if (isPending) {
+    return (
+      <aside
+        className={cn(
+          "h-screen sticky top-0 border-r bg-[var(--sidebar)] text-[var(--sidebar-foreground)] hidden md:flex md:flex-col w-64"
+        )}
+      >
+        <div className="flex items-center justify-between gap-2 p-3 border-b">
+          <div className="h-5 w-32 bg-muted rounded animate-pulse" />
+          <div className="h-8 w-8 rounded bg-muted animate-pulse" />
+        </div>
+        <div className="flex-1 p-2 space-y-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="h-9 rounded bg-muted animate-pulse" />
+          ))}
+        </div>
+        <div className="p-3 border-t">
+          <div className="h-9 rounded bg-muted animate-pulse" />
+        </div>
+      </aside>
+    )
+  }
+
   // Only show sidebar when logged in
-  if (!session?.user || isPending) return null
+  if (!session?.user) return null
 
   return (
     <aside
